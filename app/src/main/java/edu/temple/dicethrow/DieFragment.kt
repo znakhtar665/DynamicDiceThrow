@@ -12,25 +12,11 @@ import kotlin.random.Random
 
 class DieFragment : Fragment() {
 
-    val dieViewModel: DieViewModel by lazy {
+    private val dieViewModel: DieViewModel by lazy {
         ViewModelProvider(requireActivity())[DieViewModel::class.java]
     }
 
-    private val DIESIDE = "sidenumber"
-
-    lateinit var dieTextView: TextView
-
-    var dieSides: Int = 6
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            it.getInt(DIESIDE).run {
-                dieSides = this
-            }
-        }
-    }
+    private lateinit var dieTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,25 +35,6 @@ class DieFragment : Fragment() {
             dieTextView.text = it.toString()
         }
 
-
-        if (dieViewModel.getDieRoll().value == null) {
-            throwDie()
-        }
-
     }
 
-    fun throwDie() {
-        dieViewModel.setDieRoll(Random.nextInt(dieSides) + 1)
-
-    }
-
-
-
-    companion object {
-        fun newInstance(sides: Int) = DieFragment().apply {
-            Bundle().apply {
-                putInt(DIESIDE, sides)
-            }
-        }
-    }
 }
